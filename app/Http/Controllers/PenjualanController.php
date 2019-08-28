@@ -4,28 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mobil;
+use App\Penjualan;
 use DB;
 use Datatables;
 use App\Http\Controllers\Controller;
 
-class DashboardController extends Controller
+class PenjualanController extends Controller
 {
-    public function showDashboard(){
-	    return view('dashboard');
+    public function showPenjualan(){
+	    return view('penjualan');
 	}
 
-	public function insertMobil(Request $req){
-		Mobil::create([
-		  'nm_mobil' 	=> $req->input('nm_mobil'),
-		  'harga_mobil' => $req->input('harga_mobil'),
-		  'stock' 		=> $req->input('stock'),
+	public function insertPenjualan(Request $req){
+		Penjualan::create([
+		  'nm_pembeli' 		=> $req->input('nm_pembeli'),
+		  'email_pembeli' 	=> $req->input('email_pembeli'),
+		  'nomor_telepon' 	=> $req->input('nomor_telepon'),
+		  'mobil_dibeli' 	=> $req->input('mobil_dibeli'),
 		]);
 
 		return redirect()->back();
 	}
 
 	public function showData(){
-		$mobil = DB::table('mobil')->select('*');
+		$mobil = DB::table('penjualan')->select('*');
         return datatables()->of($mobil)
         		->addColumn('action', function($item) {
                     $data = array(
@@ -34,13 +36,5 @@ class DashboardController extends Controller
                     return $data;
                 })
             ->make(true);
-	}
-
-	public function hapusMobil($id)
-	{
-		DB::table('mobil')->where('id', $id)->delete();
-    	
- 
-    	return redirect('/dashboard');
 	}
 }

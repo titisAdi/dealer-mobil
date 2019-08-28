@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard - Sistem Dealer Mobil</title>
+    <title>Penjualan - Sistem Dealer Mobil</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -10,10 +10,9 @@
   </head>
   <body>
     <div class="container">
-      <h2>Informasi Stok Mobil</h2>
+      <h2>Informasi Penjualan</h2>
       <br>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Input Data Mobil</button>
-        <a type="button" class="btn btn-primary" href="{{route('penjualan')}}">Data Penjualan</a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Input Data Penjualan</button>
       <br>                                         
       <br>                                         
       <div class="table-responsive">          
@@ -21,9 +20,10 @@
           <thead>
             <tr>
               <th>No.</th>
-              <th>Nama Mobil</th>
-              <th>Harga Mobil</th>
-              <th>Stock</th>
+              <th>Nama Pembeli</th>
+              <th>Email Pembeli</th>
+              <th>Nomor Telepon Pembeli</th>
+              <th>Mobil yang Dibeli</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -35,27 +35,32 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Formulir Stock Mobil</h5>
+            <h3 class="modal-title" id="exampleModalLabel">Formulir Penjualan</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="{{url('input-mobil')}}" method="POST" name="input-mobil" id="form_validation">
+            <form action="{{url('input-penjualan')}}" method="POST" name="input-mobil" id="form_validation">
               {{ csrf_field() }}
               <div class="form-group">
-                <label for="nm_mobil" class="col-form-label">Nama Mobil:</label>
-                <input type="text" class="form-control" id="nm_mobil" name="nm_mobil">
+                <label for="nm_pembeli" class="col-form-label">Nama Pembeli:</label>
+                <input type="text" class="form-control" id="nm_pembeli" name="nm_pembeli">
               </div>
 
               <div class="form-group">
-                <label for="harga_mobil" class="col-form-label">Harga Mobil:</label>
-                <input  type="text" class="form-control" id="harga_mobil" name="harga_mobil"></input>
+                <label for="email_pembeli" class="col-form-label">Email Pembeli:</label>
+                <input type="email" class="form-control" id="email_pembeli" name="email_pembeli"></input>
               </div>
 
               <div class="form-group">
-                <label for="stock" class="col-form-label">Stock:</label>
-                <input type="text" class="form-control" id="stock" name="stock"></input>
+                <label for="nomor_telepon" class="col-form-label">Nomor Telepon Pembeli:</label>
+                <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon"></input>
+              </div>
+
+              <div class="form-group">
+                <label for="mobil_dibeli" class="col-form-label">Mobil yang Dibeli:</label>
+                <input type="text" class="form-control" id="mobil_dibeli" name="mobil_dibeli"></input>
               </div>
 
                <div class="modal-footer">
@@ -64,9 +69,6 @@
               </div>
             </form>
           </div>
-
-         
-
         </div>
       </div>
     </div>
@@ -83,12 +85,13 @@
     $('#example').DataTable({
            processing: true,
            serverSide: true,
-           ajax: "{{ url('mobil-list') }}",
+           ajax: "{{ url('penjualan-list') }}",
            columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'nm_mobil', name: 'nm_mobil' },
-                    { data: 'harga_mobil', name: 'harga_mobil' },
-                    { data: 'stock', name: 'stock' },
+                    { data: 'nm_pembeli', name: 'nm_pembeli' },
+                    { data: 'email_pembeli', name: 'email_pembeli' },
+                    { data: 'nomor_telepon', name: 'nomor_telepon' },
+                    { data: 'mobil_dibeli', name: 'mobil_dibeli' },
                     { data: 'action', name: 'action', searchable: false, orderable: false,
                       render: function(data){
                           return '<a class="target-link btn btn-danger btn-circle waves-effect waves-circle waves-float" href="'+ delete_url + '/2'+'">'+

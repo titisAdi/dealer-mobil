@@ -17,6 +17,11 @@ Route::post('login', array('uses' => 'LoginController@doLogin'));
 Route::get('dashboard', array('uses' => 'DashboardController@showDashboard'));
 Route::post('input-mobil', 'DashboardController@insertMobil')->name('input-mobil');
 Route::get('mobil-list', 'DashboardController@showData'); 
+Route::get('/delete-mobil/{id}', 'DashboardController@hapusMobil');
+
+Route::get('penjualan', 'PenjualanController@showPenjualan')->name('penjualan');
+Route::post('input-penjualan', 'PenjualanController@insertPenjualan')->name('input-penjualan');
+Route::get('penjualan-list', 'PenjualanController@showData'); 
 
 Route::get('/', function () {
     return view('welcome');
