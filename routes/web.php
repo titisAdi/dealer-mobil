@@ -11,6 +11,13 @@
 |
 */
 
+Route::get('login', array('uses' => 'LoginController@showLogin'));
+Route::post('login', array('uses' => 'LoginController@doLogin'));
+
+Route::get('dashboard', array('uses' => 'DashboardController@showDashboard'));
+Route::post('input-mobil', array('uses' => 'DashboardController@insertMobil'));
+
+
 Route::get('/', function () {
     return view('welcome');
 });
