@@ -15,8 +15,8 @@ Route::get('login', array('uses' => 'LoginController@showLogin'));
 Route::post('login', array('uses' => 'LoginController@doLogin'));
 
 Route::get('dashboard', array('uses' => 'DashboardController@showDashboard'));
-Route::post('input-mobil', array('uses' => 'DashboardController@insertMobil'));
-
+Route::post('input-mobil', 'DashboardController@insertMobil')->name('input-mobil');
+Route::get('mobil-list', 'DashboardController@showData'); 
 
 Route::get('/', function () {
     return view('welcome');

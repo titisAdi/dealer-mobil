@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mobil;
+use DB;
+use Datatables;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
@@ -13,10 +15,18 @@ class DashboardController extends Controller
 	}
 
 	public function insertMobil(Request $req){
-		$mobil  			= new Mobil;
-		$mobil->nm_mobil 	= $req->nm_mobil;
-		$mobil->harga_mobil	= $req->harga_mobil;
-		$mobil->stock 		= $req->stock;
-		$mobil->save();
+		Mobil::create([
+		  'nm_mobil' 	=> $req->input('nm_mobil'),
+		  'harga_mobil' => $req->input('harga_mobil'),
+		  'stock' 		=> $req->input('stock'),
+		]);
+
+		return redirect()->back();
+	}
+
+	public function showData(){
+		$mobil = DB::table('mobil')->select('*');
+        return datatables()->of($mobil)
+            ->make(true);
 	}
 }

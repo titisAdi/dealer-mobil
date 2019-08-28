@@ -19,24 +19,13 @@
         <table id="example" class="table table-striped table-bordered" style="width:100%">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
+              <th>No.</th>
+              <th>Nama Mobil</th>
+              <th>Harga Mobil</th>
+              <th>Stock</th>
+              <th>Aksi</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-            </tr>
-          </tbody>
         </table>
       </div>
     </div>
@@ -51,30 +40,31 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form action="{{url('input-mobil')}}" method="POST" name="input-mobil" id="form_validation">
+              {{ csrf_field() }}
               <div class="form-group">
                 <label for="nm_mobil" class="col-form-label">Nama Mobil:</label>
-                <input type="text" class="form-control" id="nm_mobil">
+                <input type="text" class="form-control" id="nm_mobil" name="nm_mobil">
               </div>
 
               <div class="form-group">
                 <label for="harga_mobil" class="col-form-label">Harga Mobil:</label>
-                <textarea class="form-control" id="harga_mobil"></textarea>
+                <textarea class="form-control" id="harga_mobil" name="harga_mobil"></textarea>
               </div>
 
               <div class="form-group">
                 <label for="stock" class="col-form-label">Stock:</label>
-                <textarea class="form-control" id="stock"></textarea>
+                <textarea class="form-control" id="stock" name="stock"></textarea>
+              </div>
+
+               <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button class="btn btn-primary waves-effect" type="submit">Simpan</button>
               </div>
             </form>
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-            <button type="button" class="btn btn-primary" id="simpan-mobil">
-                <div id="simpan">Simpan</div>
-              </button>
-          </div>
+         
 
         </div>
       </div>
@@ -86,31 +76,23 @@
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
   <script type="text/javascript">
-    $(document).ready(function() {
-        $('#example').DataTable();
-    } );
-  </script>
-
-  <script type="text/javascript">
-    $(function(){
-      $('#simpan').click(function(){
-      var nm_mobil    = $('#nm_mobil').val();
-      var harga_mobil = $('#harga_mobil').val();
-      var stock       = $('#stock').val();
-
-        $.ajax({
-        type:"POST",
-        url:"input-mobil",
-        data:
-          "nm_mobil="+nm_mobil,
-          success:function(data){
-          $("#nm_mobil").val("");
-          $("#harga_mobil").val("");
-          $("#stock").val("");
-          },
+    $(document).ready( function () {
+    $('#example').DataTable({
+           processing: true,
+           serverSide: true,
+           ajax: "{{ url('mobil-list') }}",
+           columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'nm_mobil', name: 'nm_mobil' },
+                    { data: 'harga_mobil', name: 'harga_mobil' },
+                    { data: 'stock', name: 'stock' },
+                    { data: 'action', name: 'action', searchable: false, orderable: false,
+                      render: function(data){
+                          return '<a class="target-link btn btn-info btn-circle waves-effect waves-circle waves-float">Edit</a> <a class="target-link btn btn-info btn-circle waves-effect waves-circle waves-float">Hapus</a>';
+                      }
+                  }
+                 ]
         });
-        return false;
-      });
-    });
+     });
   </script>
 </html>
